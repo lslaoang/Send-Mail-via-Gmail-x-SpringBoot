@@ -42,12 +42,12 @@ public class EmailServiceImpl implements EmailService {
 
             LOGGER.info("Sending email ...");
             javaMailSender.send(mailMessage);
-            LOGGER.info("Email send successfully!");
+            LOGGER.info("Email sent successfully!");
+            return "Mail sent Successfully.";
         }catch (Exception e){
             LOGGER.severe("Sending email failed with error: " + e.getMessage());
             return "Error occurred sending email.";
         }
-        return null;
     }
 
     @Override
@@ -64,6 +64,7 @@ public class EmailServiceImpl implements EmailService {
             mimeMessageHelper.setText(emailEntity.getMsgBody());
             mimeMessageHelper.setSubject(emailEntity.getSubject());
 
+            LOGGER.info("Fetching attachment ...");
             FileSystemResource file
                     = new FileSystemResource(
                     new File(emailEntity.getAttachment()));
