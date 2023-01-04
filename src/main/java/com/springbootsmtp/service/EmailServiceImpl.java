@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+    private final Logger LOGGER = Logger.getLogger(EmailService.class.getName());
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -29,6 +32,7 @@ public class EmailServiceImpl implements EmailService {
     public String sendSimpleMail(EmailEntity emailEntity) {
 
         try{
+            LOGGER.info("Preparing email ...");
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
             mailMessage.setFrom(sender);
@@ -36,8 +40,11 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setText(emailEntity.getMsgBody());
             mailMessage.setSubject(emailEntity.getSubject());
 
+            LOGGER.info("Sending email ...");
             javaMailSender.send(mailMessage);
+            LOGGER.info("Email send successfully!");
         }catch (Exception e){
+            LOGGER.severe("Sending email failed with error: " + e.getMessage());
             return "Error occurred sending email.";
         }
         return null;
@@ -50,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessageHelper mimeMessageHelper;
 
         try{
-
+            LOGGER.info("Preparing email ...");
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(emailEntity.getRecipient());
@@ -63,10 +70,13 @@ public class EmailServiceImpl implements EmailService {
 
             mimeMessageHelper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
 
+            LOGGER.info("Sending email ...");
             javaMailSender.send(mimeMessage);
-            return "Mail sent Successfully";
+            LOGGER.info("Email send successfully!");
+            return "Mail sent Successfully.";
 
         }catch (Exception e){
+            LOGGER.severe("Sending email failed with error: " + e.getMessage());
             return "Error occurred sending email.";
         }
     }

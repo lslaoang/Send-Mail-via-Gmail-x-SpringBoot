@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.Logger;
+
 @RestController
 public class EmailController {
+
+    private final Logger LOGGER = Logger.getLogger(EmailController.class.getName());
 
     private final EmailService emailService;
 
@@ -17,13 +21,17 @@ public class EmailController {
 
     @PostMapping(path = "/sendMail")
     public String sendMail(@RequestBody EmailEntity email){
+        LOGGER.info("Initiating emailService ...");
         String status = emailService.sendSimpleMail(email);
+        LOGGER.info("Sending email finished with result: " + status);
         return status;
     }
 
     @PostMapping(path = "/sendMailWithAttachment")
     public String sendMailWithAttachment(@RequestBody EmailEntity email){
-        String status = emailService.sendSimpleMail(email);
+        LOGGER.info("Initiating emailService with attachment ...");
+        String status = emailService.sendMailWithAttachment(email);
+        LOGGER.info("Sending email finished with result: " + status);
         return status;
     }
 }
