@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.springbootsmtp</groupId>
-    <artifactId>sprinboot-smtp</artifactId>
+    <artifactId>springboot-smtp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-smtp</name>
     <description>springboot-smtp</description>
