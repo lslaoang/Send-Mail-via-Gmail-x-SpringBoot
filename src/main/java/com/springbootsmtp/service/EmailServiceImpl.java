@@ -46,7 +46,8 @@ public class EmailServiceImpl implements EmailService {
             return "Mail sent Successfully.";
         }catch (Exception e){
             LOGGER.severe("Sending email failed with error: " + e.getMessage());
-            return "Error occurred sending email.";
+            e.printStackTrace();
+            return "Error occurred sending email. " + e.getMessage();
         }
     }
 
@@ -73,12 +74,13 @@ public class EmailServiceImpl implements EmailService {
 
             LOGGER.info("Sending email ...");
             javaMailSender.send(mimeMessage);
-            LOGGER.info("Email send successfully!");
+            LOGGER.info("Email sent successfully!");
             return "Mail sent Successfully.";
 
         }catch (Exception e){
             LOGGER.severe("Sending email failed with error: " + e.getMessage());
-            return "Error occurred sending email.";
+            e.printStackTrace();
+            return "Error occurred sending email. " + e.getMessage();
         }
     }
 }
